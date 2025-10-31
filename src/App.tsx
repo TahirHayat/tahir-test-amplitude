@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
+import './amplitude';
 
 export default function App() {
   return (
