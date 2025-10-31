@@ -1,25 +1,30 @@
-import { useState } from 'react'
-import './App.css'
+import { Routes, Route, Link } from "react-router-dom";
+import Container from "@mui/material/Container";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Home from "./pages/Home";
+import PostDetail from "./pages/PostDetail";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <AppBar position="sticky">
+        <Toolbar>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <Typography variant="h6">Test Amplitude</Typography>
+          </Link>
+          <Box sx={{ flex: 1 }} />
+        </Toolbar>
+      </AppBar>
 
-export default App
+      <Container sx={{ mt: 4 }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts/:id" element={<PostDetail />} />
+        </Routes>
+      </Container>
+    </>
+  );
+}
