@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
 import { fetchPosts } from "../api/api";
 import type { Post } from "../types/types";
-import PostCard from "../components/PostCard";
+import { useNavigate } from "react-router-dom";
+import { Grid, Card, CardContent, Typography, CardActionArea } from "@mui/material";
 
-export default function Home() {
+const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
@@ -35,18 +35,25 @@ export default function Home() {
   if (!posts || posts.length === 0) return <Typography>No posts found.</Typography>;
 
   return (
-    <>
-      <Typography variant="h5" gutterBottom>
-        Posts
-      </Typography>
-
-      <Grid container spacing={2}>
-        {posts.map((p) => (  
-          <Grid key={p.id} size={{ xs: 12, sm: 6, md: 4 }}>
-            <PostCard post={p} />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <Grid container spacing={2} sx={{ p: 3 }}>
+      {posts.map((p) => (
+        <Grid key={p.id} size={{ xs: 12, sm: 6, md: 4 }}>
+          <Card>
+            <CardActionArea onClick={() => navigate(`/posts/${p.id}`)}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  {p.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {p.body.slice(0, 100)}...
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
+
+export default Home;

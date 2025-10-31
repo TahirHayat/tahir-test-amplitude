@@ -14,7 +14,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { fetchPostById, fetchUserById, fetchCommentsForPost } from "../api/api";
 import type { Post, User, Comment } from "../types/types";
 
-export default function PostDetail() {
+const PostDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -58,7 +58,7 @@ export default function PostDetail() {
 
   return (
     <Box>
-      <Button component={RouterLink} to="/" variant="outlined" sx={{ mb: 2 }}>
+      <Button component={RouterLink} to="/home" variant="outlined" sx={{ mb: 2 }}>
         ← Back to posts
       </Button>
 
@@ -119,3 +119,5 @@ export default function PostDetail() {
     </Box>
   );
 }
+
+export default PostDetail;

@@ -1,38 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { identifyUser, logoutUser } from './amplitude';
+import { useAuth } from "./context/AuthContext";
 
 const TopBar: React.FC = () => {
-  // track login state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { userName, logout } = useAuth();
 
-  // mock login logic
-  const handleLogin = () => {
-    console.log("Mock login executed...");
-    identifyUser('user1', {
-      email: 'user1@test.com',
-      name: 'User 1',
-      plan_type: 'Enterprise'
-    });
-    
-    setTimeout(() => {
-      setIsLoggedIn(true);
-      console.log("User logged in!");
-    }, 500);
-  };
-
-  // mock logout logic
-  const handleLogout = () => {
-    console.log("Mock logout executed...");
-    logoutUser();
-    setTimeout(() => {
-      setIsLoggedIn(false);
-      console.log("User logged out!");
-    }, 500);
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -42,27 +20,20 @@ const TopBar: React.FC = () => {
         <Typography variant="h6" component="div">
           Test Amplitude
         </Typography>
-
-        {/* Right side - Login/Logout button */}
-        <Box>
-          {isLoggedIn ? (
+        
+        {userName && (
+          <Box display="flex" alignItems="center" gap={2}>
+            <Typography variant="body1">Hello, {userName}</Typography>
             <Button
               color="inherit"
               variant="outlined"
               onClick={handleLogout}
+              sx={{ borderColor: "white" }}
             >
               Logout
             </Button>
-          ) : (
-            <Button
-              color="inherit"
-              variant="outlined"
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          )}
-        </Box>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
