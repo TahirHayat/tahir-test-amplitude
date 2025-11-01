@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, type ReactNode } from "react";
-import { identifyUser, logoutUser } from '../amplitude';
+import { identifyUser, initAmplitude, resetAmplitude } from '../amplitude';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -16,6 +16,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, password: string) => {
     console.log("Running mock login...",password);
+    initAmplitude();
     identifyUser(email.split("@")[0], {
           email: email,
           name: email.split("@")[0],
@@ -34,7 +35,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = async () => {
     console.log("Running mock logout...");
-    logoutUser();
+    resetAmplitude();
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         setIsAuthenticated(false);
